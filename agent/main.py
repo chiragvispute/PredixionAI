@@ -55,10 +55,18 @@ def main() -> None:
             "possible_injection" in item.flags
             for item in evidence
         ),
+        low_quality_flags=sum(
+            "low_quality_domain" in item.flags
+            for item in evidence
+        ),
     )
 
     print("\nSYNTHESIZING ANSWER")
-    answer = synthesize_answer(question, evidence)
+    answer, synthesis_error = synthesize_answer(
+        question,
+        evidence,
+        tool_events,
+    )
 
     write_log(
         run_id,
@@ -66,6 +74,8 @@ def main() -> None:
         confidence=answer.confidence,
         findings=len(answer.key_findings),
         sources=len(answer.sources_used),
+        synthesis_status="fallback" if synthesis_error else "ok",
+        synthesis_error=synthesis_error,
     )
 
     print("\nFINAL ANSWER")

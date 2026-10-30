@@ -23,6 +23,13 @@ TRACKING_PARAMETERS = {
     "fbclid",
 }
 
+LOW_QUALITY_DOMAIN_MARKERS = {
+    "pinterest.",
+    "quora.",
+    "medium.com",
+    "answers.",
+}
+
 
 def normalize_url(url: str) -> str:
     parts = urlsplit(url)
@@ -50,6 +57,21 @@ def contains_prompt_injection(text: str) -> bool:
         re.search(pattern, text, flags=re.IGNORECASE)
         for pattern in INJECTION_PATTERNS
     )
+
+
+def strip_prompt_injection(text: str) -> str:
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    safe_sentences = [
+        sentence
+        for sentence in sentences
+        if not contains_prompt_injection(sentence)
+    ]
+    return " ".join(safe_sentences).strip()
+
+
+def is_low_quality_domain(url: str) -> bool:
+    hostname = urlsplit(url).netloc.lower()
+    return any(marker in hostname for marker in LOW_QUALITY_DOMAIN_MARKERS)
 
 
 def relevance_score(text: str, query: str) -> float:
@@ -110,11 +132,20 @@ def filter_evidence(
 
         if contains_prompt_injection(content):
             flags.append("possible_injection")
+            content = strip_prompt_injection(content)
+
+        if not content or len(content) < 80:
+            continue
+
+        if is_low_quality_domain(normalized_url):
+            flags.append("low_quality_domain")
 
         score = relevance_score(
             f"{title} {content}",
             query,
         )
+        if "low_quality_domain" in flags:
+            score *= 0.5
 
         candidates.append(
             (

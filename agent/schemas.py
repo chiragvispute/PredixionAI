@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 class SubTask(BaseModel):
     id: str
     goal: str
-    tool: Literal["web_search", "fetch_page", "github_repo"]
+    tool: Literal["web_search", "fetch_page", "firecrawl_search", "firecrawl_scrape", "github_repo"]
     query: str
 
 

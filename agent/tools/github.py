@@ -1,3 +1,4 @@
+import re
 from typing import Any
 
 import httpx
@@ -20,9 +21,15 @@ def fetch_github_repo(repository: str) -> ToolResult:
                 f"{repository_query}"
             )
         else:
+            search_query = " ".join(
+                word
+                for word in re.findall(r"[A-Za-z0-9+#.-]+", repository_query)
+                if len(word) > 2
+            )
             endpoint = (
                 "https://api.github.com/search/repositories"
-                f"?q={quote_plus(repository_query)}&per_page=1"
+                f"?q={quote_plus(search_query)}+in:name,description,readme"
+                "&sort=stars&order=desc&per_page=1"
             )
 
         response = httpx.get(
@@ -37,7 +44,7 @@ def fetch_github_repo(repository: str) -> ToolResult:
 
         data = response.json()
 
-        if endpoint.endswith("per_page=1"):
+        if "/search/repositories" in endpoint:
             matches = data.get("items", [])
             if not matches:
                 return []
@@ -45,6 +52,24 @@ def fetch_github_repo(repository: str) -> ToolResult:
 
         if not isinstance(data, dict) or "html_url" not in data:
             raise ValueError("GitHub returned a malformed repository response")
+
+        query_terms = {
+            word.lower()
+            for word in re.findall(r"[A-Za-z0-9+#.-]+", repository_query)
+            if len(word) > 2
+        }
+        repository_text = " ".join(
+            [
+                str(data.get("full_name", "")),
+                str(data.get("description", "")),
+            ]
+        ).lower()
+        if (
+            "/search/repositories" in endpoint
+            and query_terms
+            and not any(term in repository_text for term in query_terms)
+        ):
+            return []
 
         return [
             {

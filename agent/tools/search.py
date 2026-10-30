@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from agent.schemas import ToolResult
 from agent.tools.base import run_tool
+from agent.tools.firecrawl import search_firecrawl
 
 
 load_dotenv()
@@ -14,6 +15,12 @@ load_dotenv()
 
 def search_web(query: str, max_results: int = 5) -> ToolResult:
     def operation() -> list[dict[str, Any]]:
+        firecrawl_key = os.getenv("FIRECRAWL_API_KEY")
+        if firecrawl_key:
+            firecrawl_result = search_firecrawl(query, max_results)
+            if firecrawl_result.status == "ok":
+                return firecrawl_result.data
+
         tavily_key = os.getenv("TAVILY_API")
 
         if tavily_key:
