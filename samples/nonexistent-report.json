@@ -1,0 +1,18 @@
+{
+  "user_question": "Summarize the 2031 annual report of Zorblax Quantum Holdings",
+  "short_answer": "Insufficient evidence to summarize the 2031 annual report of Zorblax Quantum Holdings.",
+  "key_findings": [],
+  "sources_used": [],
+  "confidence": "low",
+  "limitations_or_assumptions": [
+    "No evidence in the provided sources references Zorblax Quantum Holdings or its 2031 annual report.",
+    "All available evidence pertains to other companies, including Horizon Quantum, Quantum-Si, Quantum Computing Inc, and Quantum Corporation.",
+    "Some planned tools did not provide usable results: fetch_page (error), firecrawl_scrape (error).",
+    "The requested future-dated document or event must be verified before it can be summarized."
+  ],
+  "suggested_next_steps": [
+    "Search for official documents or filings related to Zorblax Quantum Holdings for the year 2031.",
+    "Check the company's investor relations website or SEC filings for the 2031 annual report.",
+    "Verify the existence and availability of the 2031 report before attempting to summarize."
+  ]
+}

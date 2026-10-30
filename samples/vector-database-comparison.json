@@ -1,0 +1,71 @@
+{
+  "user_question": "Compare the top 3 open-source vector databases for a startup building RAG products",
+  "short_answer": "For a startup focused on Retrieval-Augmented Generation (RAG), the three most relevant open-source vector databases are Milvus, Qdrant, and Weaviate. Milvus excels at high-volume, large-scale workloads with multiple index types and strong filtering, Qdrant offers a lightweight, Rust-based engine with fast HNSW search and real-time performance, and Weaviate provides built-in hybrid search (vector + BM25), extensive LLM integration modules, and a custom HNSW index that is well-suited for RAG pipelines.",
+  "key_findings": [
+    {
+      "claim": "Milvus is an open-source vector database that supports multiple ANN index types (HNSW, IVF, and disk-based) and is designed for high-volume vector retrieval workloads, offering filtering and scaling primitives.",
+      "evidence_ids": [
+        "E2"
+      ]
+    },
+    {
+      "claim": "Milvus handles write-heavy patterns with streaming indexing and background compaction, helping maintain query latency above 10 million vectors.",
+      "evidence_ids": [
+        "E1"
+      ]
+    },
+    {
+      "claim": "Qdrant is a high-performance, open-source vector database written in Rust that uses HNSW indexing and is faster than PGVector in some large-corpus benchmarks.",
+      "evidence_ids": [
+        "E3"
+      ]
+    },
+    {
+      "claim": "Qdrant is designed for real-time applications and offers fast throughput for large datasets, although the available evidence does not detail its hybrid search or filtering capabilities.",
+      "evidence_ids": [
+        "E3"
+      ]
+    },
+    {
+      "claim": "Weaviate is an open-source, AI-native vector database that implements a custom HNSW index and provides built-in hybrid search combining vector similarity with BM25 keyword search.",
+      "evidence_ids": [
+        "E5"
+      ]
+    },
+    {
+      "claim": "Weaviate offers modules for vectorization, reranking, and generative workflows, making it integrated with LLM-based RAG pipelines.",
+      "evidence_ids": [
+        "E5",
+        "E4"
+      ]
+    },
+    {
+      "claim": "Weaviate's hybrid search and enterprise features, including filtering, security, and scalability, are highlighted as strengths for RAG use cases.",
+      "evidence_ids": [
+        "E4"
+      ]
+    }
+  ],
+  "sources_used": [
+    "https://www.firecrawl.dev/blog/best-vector-databases",
+    "https://www.pingcap.com/compare/best-vector-database",
+    "https://cohorte.co/blog/a-developers-friendly-guide-to-qdrant-vector-database",
+    "https://www.braintrust.dev/articles/best-vector-databases-for-rag-2026",
+    "https://weaviate.io/blog/enterprise-use-cases-weaviate"
+  ],
+  "confidence": "medium",
+  "limitations_or_assumptions": [
+    "The evidence does not provide direct side-by-side performance benchmarks or cost comparisons for the three databases.",
+    "Information on filtering strength, hybrid search, and integration depth is limited for Qdrant.",
+    "There is no data on deployment complexity, community activity, or long-term support for each project.",
+    "The comparison assumes that the startup's RAG workload requires high-volume vector retrieval and hybrid search capabilities.",
+    "The GitHub repository lookup did not provide usable results for Weaviate."
+  ],
+  "suggested_next_steps": [
+    "Run a benchmark with your own embedding dimensions, vector count, and query patterns on Milvus, Qdrant, and Weaviate to measure latency, throughput, and recall.",
+    "Evaluate integration with your existing LLM stack and the availability of pre-built vectorization and reranking modules.",
+    "Assess community support, documentation quality, and release cadence for each project.",
+    "Consider hybrid search requirements when selecting between the databases.",
+    "If real-time performance and lightweight deployment are critical, test Qdrant in a production-like environment."
+  ]
+}
