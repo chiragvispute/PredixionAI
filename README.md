@@ -11,29 +11,8 @@ and safe behavior when sources are incomplete or unreliable.
 
 ## What it does
 
-The agent follows this flow:
+<img width="1704" height="426" alt="Untitled - Visual 1" src="https://github.com/user-attachments/assets/087be06e-a835-4230-b973-1ac435b851fd" />
 
-```text
-Question
-   |
-   v
-Planner -> validated research plan
-   |
-   v
-Executor -> search, page extraction, and repository tools
-   |
-   v
-Evidence filter -> deduplication, relevance, quality, injection checks
-   |
-   v
-Synthesizer -> structured answer with evidence IDs
-   |
-   v
-Guardrails -> citation validation, coverage checks, confidence limits
-   |
-   v
-Answer + JSONL diagnostic trace
-```
 
 The final answer contains:
 
